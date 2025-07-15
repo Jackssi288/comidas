@@ -125,15 +125,40 @@
     </div>
 
     <script>
-        const phoneNumber = "5492355644556";
+        const phoneNumber = "5492355514428";
 
-        const products = Array.from({length: 30}, (_, i) => ({
-            id: i + 1,
-            name: `Producto ${i + 1}`,
-            price: 1000 + (i * 100),
-            image: "https://via.placeholder.com/300x200",
-            quantity: 0
-        }));
+        const products = [
+            { id: 1, name: "Pizza Muzzarella", price: 5000, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 2, name: "Pizza Napolitana", price: 5200, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 3, name: "Pizza Calabresa", price: 5300, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 4, name: "Pizza Jamón y Morrones", price: 5400, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 5, name: "Pizza Fugazzeta", price: 5500, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 6, name: "Hamburguesa Completa", price: 4500, image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dietfarma.com%2Freceta%2Fhamburguesa-de-ternera-completa&psig=AOvVaw11l-MIoLzngp_Gl3sqhJqi&ust=1752690009125000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCJi4gpi9v44DFQAAAAAdAAAAABAE", quantity: 0 },
+            { id: 7, name: "Hamburguesa Doble", price: 4800, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 8, name: "Lomito Especial", price: 6200, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 9, name: "Lomito Completo", price: 6400, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 10, name: "Empanadas x6", price: 3800, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 11, name: "Empanadas x12", price: 7000, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 12, name: "Tarta de Jamón y Queso", price: 3500, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 13, name: "Tarta de Verdura", price: 3300, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 14, name: "Ensalada Caesar", price: 4200, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 15, name: "Ensalada Mixta", price: 4000, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 16, name: "Milanesa Napolitana", price: 5900, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 17, name: "Milanesa Completa", price: 5800, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 18, name: "Suprema al Limón", price: 6000, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 19, name: "Suprema Napolitana", price: 6300, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 20, name: "Papas Fritas Chicas", price: 2000, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 21, name: "Papas Fritas Grandes", price: 3000, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 22, name: "Bebida Coca-Cola 1.5L", price: 2500, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 23, name: "Bebida Sprite 1.5L", price: 2400, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 24, name: "Bebida Fanta 1.5L", price: 2400, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 25, name: "Agua Mineral 1.5L", price: 1800, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 26, name: "Agua con Gas 1.5L", price: 1800, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 27, name: "Postre Helado 1L", price: 4500, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 28, name: "Brownie con Helado", price: 4800, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 29, name: "Tiramisú", price: 5000, image: "https://via.placeholder.com/300x200", quantity: 0 },
+            { id: 30, name: "Cheesecake", price: 5200, image: "https://via.placeholder.com/300x200", quantity: 0 }
+        ];
 
         const menuDiv = document.getElementById('menu');
         const totalDiv = document.getElementById('total');
@@ -196,4 +221,4 @@
         renderMenu();
     </script>
 </body>
-</html>
+</html
