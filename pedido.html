@@ -113,21 +113,41 @@
 
 <script>
 const productos = [
+    {titulo: "Plato del Dia", descripcion: "Descripción del producto 1", precio: 1000, imagen: "producto1.jpg"},
+    {titulo: "Producto 2", descripcion: "Descripción del producto 2", precio: 1500, imagen: "producto1.jpg"},
+    {titulo: "Producto 3", descripcion: "Descripción del producto 3", precio: 2000, imagen: "producto1.jpg"},
+    {titulo: "Producto 4", descripcion: "Descripción del producto 4", precio: 1200, imagen: "producto1.jpg"},
+    {titulo: "Producto 5", descripcion: "Descripción del producto 5", precio: 1300, imagen: "producto1.jpg"},
+    {titulo: "Producto 6", descripcion: "Descripción del producto 6", precio: 1800, imagen: "producto1.jpg"},
+    {titulo: "Milanesa de Ternera", descripcion: "Descripción del producto 7", precio: 1700, imagen: "MilanesaTernera.webp"},
+    {titulo: "Milanesa de Napolitana", descripcion: "Descripción del producto 8", precio: 1400, imagen: "milanapo.webp"},
+    {titulo: "Producto 9", descripcion: "Descripción del producto 9", precio: 1600, imagen: "producto1.jpg"},
+    {titulo: "Producto 10", descripcion: "Descripción del producto 10", precio: 1100, imagen: "producto1.jpg"},
     {titulo: "Producto 1", descripcion: "Descripción del producto 1", precio: 1000, imagen: "producto1.jpg"},
-    {titulo: "Producto 2", descripcion: "Descripción del producto 2", precio: 1500, imagen: "producto2.jpg"},
-    {titulo: "Producto 3", descripcion: "Descripción del producto 3", precio: 2000, imagen: "producto3.jpg"},
-    {titulo: "Producto 4", descripcion: "Descripción del producto 4", precio: 1200, imagen: "producto4.jpg"},
-    {titulo: "Producto 5", descripcion: "Descripción del producto 5", precio: 1300, imagen: "producto5.jpg"},
-    {titulo: "Producto 6", descripcion: "Descripción del producto 6", precio: 1800, imagen: "producto6.jpg"},
-    {titulo: "Producto 7", descripcion: "Descripción del producto 7", precio: 1700, imagen: "producto7.jpg"},
-    {titulo: "Producto 8", descripcion: "Descripción del producto 8", precio: 1400, imagen: "producto8.jpg"},
-    {titulo: "Producto 9", descripcion: "Descripción del producto 9", precio: 1600, imagen: "producto9.jpg"},
-    {titulo: "Producto 10", descripcion: "Descripción del producto 10", precio: 1100, imagen: "producto10.jpg"}
+    {titulo: "Producto 2", descripcion: "Descripción del producto 2", precio: 1500, imagen: "producto1.jpg"},
+    {titulo: "Rabas con Fritas", descripcion: "Descripción del producto 3", precio: 2000, imagen: "rabasyfritas.webp"},
+    {titulo: "Producto 4", descripcion: "Descripción del producto 4", precio: 1200, imagen: "producto1.jpg"},
+    {titulo: "Producto 5", descripcion: "Descripción del producto 5", precio: 1300, imagen: "producto1.jpg"},
+    {titulo: "Producto 6", descripcion: "Descripción del producto 6", precio: 1800, imagen: "producto1.jpg"},
+    {titulo: "Producto 7", descripcion: "Descripción del producto 7", precio: 1700, imagen: "producto1.jpg"},
+    {titulo: "Producto 8", descripcion: "Descripción del producto 8", precio: 1400, imagen: "producto1.jpg"},
+    {titulo: "Producto 9", descripcion: "Descripción del producto 9", precio: 1600, imagen: "producto1.jpg"},
+    {titulo: "Producto 10", descripcion: "Descripción del producto 10", precio: 1100, imagen: "producto1.jpg"},
+    {titulo: "Producto 2", descripcion: "Descripción del producto 2", precio: 1500, imagen: "producto1.jpg"},
+    {titulo: "Producto 3", descripcion: "Descripción del producto 3", precio: 2000, imagen: "producto1.jpg"},
+    {titulo: "Producto 4", descripcion: "Descripción del producto 4", precio: 1200, imagen: "producto1.jpg"},
+    {titulo: "Producto 5", descripcion: "Descripción del producto 5", precio: 1300, imagen: "producto1.jpg"},
+    {titulo: "Producto 6", descripcion: "Descripción del producto 6", precio: 1800, imagen: "producto1.jpg"},
+    {titulo: "Producto 7", descripcion: "Descripción del producto 7", precio: 1700, imagen: "producto1.jpg"},
+    {titulo: "Acompañado con Ensalada", descripcion: "Descripción del producto 1", precio: 1000, imagen: "ensalada.webp"}, 
+    {titulo: "Acompañado con Puré", descripcion: "Descripción del producto 8", precio: 1400, imagen: "pure.webp"},
+    {titulo: "Acompañado con Papas Nopissetes", descripcion: "Descripción del producto 9", precio: 1600, imagen: "papasnoisetes.webp"},
+    {titulo: "Producto 10", descripcion: "Descripción del producto 10", precio: 1100, imagen: "producto1.jpg"}
 ];
 
 const pizzas = ['Muzzarella', 'Napolitana', 'Especial', 'Capresse', 'Pollo', 'Pollo y Roque', 'Calabresa', 'Verduras Asadas', 'Palmitos', 'Ananá', 'Especial con huevo frito', 'Espinaca'];
 const empanadas = ['Pollo', 'Verdura', 'Capresse', 'Pollo y Roque', 'Jamón y Queso', 'Jamón y Roque', 'Cebolla y Mozza', 'Ciruela y Panceta', 'Carne cortada a cuchillo', 'Espinaca', 'Carne dulce'];
-const tartas = [...empanadas];
+const tartas = ['Pollo', 'Verdura', 'Capresse', 'Pollo y Roque', 'Jamón y Queso', 'Calabaza y Nuez', 'Zapallito', 'Ciruela y Panceta'];
 
 const contenedor = document.getElementById('productos');
 productos.forEach((producto, index) => {
@@ -246,7 +266,7 @@ function enviarPedido() {
         if (cantidad > 0) mensaje += `\n- Tarta ${tarta} x${cantidad} ($1000 c/u)`;
     });
 
-    const whatsappURL = `https://wa.me/549XXXXXXXXXX?text=${encodeURIComponent(mensaje)}`;
+    const whatsappURL = `https://wa.me/5492355644556?text=${encodeURIComponent(mensaje)}`;
     window.open(whatsappURL);
 }
 </script>
