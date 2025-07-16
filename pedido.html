@@ -3,222 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Carta Online - Pedidos WhatsApp</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>Carta de Pedidos</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
-            font-family: 'Roboto', sans-serif;
-            background: #f7f7f7;
-            color: #333;
+            padding: 20px;
+            background: #f9f9f9;
         }
         .container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
         }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .input-group {
-            margin-bottom: 15px;
-        }
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-        }
-        .menu-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .cliente-info, .menu, .pizzas, .empanadas, .tartas {
             background: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            overflow: hidden;
-            padding: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
-        .menu-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        .details {
-            width: 100%;
-            text-align: center;
-            margin-top: 10px;
-        }
-        .details h3 {
-            margin: 10px 0;
-        }
-        .details p {
-            margin: 0 0 10px;
-            font-size: 0.9em;
-            color: #666;
-        }
-        .quantity {
+        .producto, .pizza-item, .empanada-item, .tarta-item {
             display: flex;
-            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 15px;
+        }
+        .producto img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-right: 20px;
+            border-radius: 10px;
+        }
+        .producto-info, .pizza-info, .empanada-info, .tarta-info {
+            flex: 1;
+        }
+        .cantidad-control {
+            display: flex;
             align-items: center;
             gap: 10px;
             margin-top: 10px;
         }
         button {
-            padding: 5px 10px;
+            padding: 10px;
             font-size: 16px;
             cursor: pointer;
-            border: none;
-            background: #25D366;
-            color: #fff;
-            border-radius: 5px;
-            transition: 0.2s;
         }
-        button:hover {
-            background: #1ebe57;
-        }
-        #total {
-            font-size: 1.2em;
-            margin-top: 20px;
-            text-align: right;
-        }
-        .send-btn {
+        .enviar {
             width: 100%;
-            padding: 15px;
-            font-size: 1.2em;
-            background: #128C7E;
+            background: #25D366;
+            color: white;
+            border: none;
+            font-size: 18px;
+            border-radius: 10px;
             margin-top: 20px;
         }
-        .send-btn:hover {
-            background: #0f7d6e;
+        .grid-productos, .grid-pizzas-empanadas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 600px) {
+            .producto, .pizza-item, .empanada-item, .tarta-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .producto img {
+                margin-bottom: 10px;
+            }
+            .grid-productos, .grid-pizzas-empanadas {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📋 Carta Online</h1>
 
-        <div class="input-group">
-            <label for="name">Nombre y Apellido</label>
-            <input type="text" id="name" placeholder="Tu nombre y apellido">
-        </div>
-        <div class="input-group">
-            <label for="address">Dirección</label>
-            <input type="text" id="address" placeholder="Tu dirección">
-        </div>
-
-        <div class="menu-grid" id="menu"></div>
-        <div id="total">Total: $0</div>
-        <button class="send-btn" onclick="sendOrder()">Enviar pedido por WhatsApp</button>
+<div class="container">
+    <div class="cliente-info">
+        <h2>Datos del Cliente</h2>
+        <input type="text" id="nombre" placeholder="Nombre y Apellido" style="width: 100%; padding: 10px; margin-bottom: 10px;">
+        <input type="text" id="direccion" placeholder="Dirección" style="width: 100%; padding: 10px;">
     </div>
 
-    <script>
-        const phoneNumber = "5492355644556";
+    <div class="menu">
+        <h2>Menú de Productos</h2>
+        <div id="productos" class="grid-productos"></div>
+    </div>
 
-        const products = [
-            { id: 1, name: "Pizza Muzzarella", price: 5000, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 2, name: "Pizza Napolitana", price: 5200, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 3, name: "Pizza Calabresa", price: 5300, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 4, name: "Pizza Jamón y Morrones", price: 5400, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 5, name: "Pizza Fugazzeta", price: 5500, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 6, name: "Hamburguesa Completa", price: 4500, image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dietfarma.com%2Freceta%2Fhamburguesa-de-ternera-completa&psig=AOvVaw11l-MIoLzngp_Gl3sqhJqi&ust=1752690009125000&source=images&cd=vfe&opi=89978449&ved=0CBUQjRxqFwoTCJi4gpi9v44DFQAAAAAdAAAAABAE", quantity: 0 },
-            { id: 7, name: "Hamburguesa Doble", price: 4800, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 8, name: "Lomito Especial", price: 6200, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 9, name: "Lomito Completo", price: 6400, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 10, name: "Empanadas x6", price: 3800, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 11, name: "Empanadas x12", price: 7000, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 12, name: "Tarta de Jamón y Queso", price: 3500, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 13, name: "Tarta de Verdura", price: 3300, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 14, name: "Ensalada Caesar", price: 4200, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 15, name: "Ensalada Mixta", price: 4000, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 16, name: "Milanesa Napolitana", price: 5900, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 17, name: "Milanesa Completa", price: 5800, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 18, name: "Suprema al Limón", price: 6000, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 19, name: "Suprema Napolitana", price: 6300, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 20, name: "Papas Fritas Chicas", price: 2000, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 21, name: "Papas Fritas Grandes", price: 3000, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 22, name: "Bebida Coca-Cola 1.5L", price: 2500, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 23, name: "Bebida Sprite 1.5L", price: 2400, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 24, name: "Bebida Fanta 1.5L", price: 2400, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 25, name: "Agua Mineral 1.5L", price: 1800, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 26, name: "Agua con Gas 1.5L", price: 1800, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 27, name: "Postre Helado 1L", price: 4500, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 28, name: "Brownie con Helado", price: 4800, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 29, name: "Tiramisú", price: 5000, image: "https://via.placeholder.com/300x200", quantity: 0 },
-            { id: 30, name: "Cheesecake", price: 5200, image: "https://via.placeholder.com/300x200", quantity: 0 }
-        ];
+    <div class="pizzas">
+        <h2>Pizzas ($5000 c/u)</h2>
+        <div id="pizzas" class="grid-pizzas-empanadas"></div>
+    </div>
 
-        const menuDiv = document.getElementById('menu');
-        const totalDiv = document.getElementById('total');
+    <div class="empanadas">
+        <h2>Empanadas ($1000 c/u)</h2>
+        <div id="empanadas" class="grid-pizzas-empanadas"></div>
+    </div>
 
-        function renderMenu() {
-            menuDiv.innerHTML = '';
-            products.forEach((product, index) => {
-                const item = document.createElement('div');
-                item.className = 'menu-item';
-                item.innerHTML = `
-                    <img src="${product.image}" alt="${product.name}">
-                    <div class="details">
-                        <h3>${product.name}</h3>
-                        <p>Precio: $${product.price}</p>
-                        <div class="quantity">
-                            <button onclick="changeQuantity(${index}, -1)">-</button>
-                            <span id="qty-${index}">${product.quantity}</span>
-                            <button onclick="changeQuantity(${index}, 1)">+</button>
-                        </div>
-                    </div>
-                `;
-                menuDiv.appendChild(item);
-            });
-            updateTotal();
-        }
+    <div class="tartas">
+        <h2>Tartas ($1000 c/u)</h2>
+        <div id="tartas" class="grid-pizzas-empanadas"></div>
+    </div>
 
-        function changeQuantity(index, delta) {
-            products[index].quantity += delta;
-            if (products[index].quantity < 0) products[index].quantity = 0;
-            document.getElementById(`qty-${index}`).innerText = products[index].quantity;
-            updateTotal();
-        }
+    <button class="enviar" onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
+</div>
 
-        function updateTotal() {
-            let total = products.reduce((sum, p) => sum + (p.price * p.quantity), 0);
-            totalDiv.innerText = `Total: $${total}`;
-        }
+<script>
+const productos = [
+    {titulo: "Producto 1", descripcion: "Descripción del producto 1", precio: 1000, imagen: "producto1.jpg"},
+    {titulo: "Producto 2", descripcion: "Descripción del producto 2", precio: 1500, imagen: "producto2.jpg"},
+    {titulo: "Producto 3", descripcion: "Descripción del producto 3", precio: 2000, imagen: "producto3.jpg"},
+    {titulo: "Producto 4", descripcion: "Descripción del producto 4", precio: 1200, imagen: "producto4.jpg"},
+    {titulo: "Producto 5", descripcion: "Descripción del producto 5", precio: 1300, imagen: "producto5.jpg"},
+    {titulo: "Producto 6", descripcion: "Descripción del producto 6", precio: 1800, imagen: "producto6.jpg"},
+    {titulo: "Producto 7", descripcion: "Descripción del producto 7", precio: 1700, imagen: "producto7.jpg"},
+    {titulo: "Producto 8", descripcion: "Descripción del producto 8", precio: 1400, imagen: "producto8.jpg"},
+    {titulo: "Producto 9", descripcion: "Descripción del producto 9", precio: 1600, imagen: "producto9.jpg"},
+    {titulo: "Producto 10", descripcion: "Descripción del producto 10", precio: 1100, imagen: "producto10.jpg"}
+];
 
-        function sendOrder() {
-            const name = document.getElementById('name').value.trim();
-            const address = document.getElementById('address').value.trim();
-            if (!name || !address) {
-                alert("Por favor, completa nombre y dirección");
-                return;
-            }
-            let order = `Nombre: ${name}%0ADirección: ${address}%0A%0A`;
-            order += products.filter(p => p.quantity > 0)
-                .map(p => `${p.name} x ${p.quantity} = $${p.price * p.quantity}`)
-                .join("%0A");
-            if (!order.includes('x')) {
-                alert("Selecciona al menos un producto");
-                return;
-            }
-            let total = products.reduce((sum, p) => sum + (p.price * p.quantity), 0);
-            order += `%0A%0ATotal: $${total}`;
-            const url = `https://wa.me/${phoneNumber}?text=Hola%20quiero%20hacer%20un%20pedido:%0A${order}`;
-            window.open(url, '_blank');
-        }
+const pizzas = ['Muzzarella', 'Napolitana', 'Especial', 'Capresse', 'Pollo', 'Pollo y Roque', 'Calabresa', 'Verduras Asadas', 'Palmitos', 'Ananá', 'Especial con huevo frito', 'Espinaca'];
+const empanadas = ['Pollo', 'Verdura', 'Capresse', 'Pollo y Roque', 'Jamón y Queso', 'Jamón y Roque', 'Cebolla y Mozza', 'Ciruela y Panceta', 'Carne cortada a cuchillo', 'Espinaca', 'Carne dulce'];
+const tartas = [...empanadas];
 
-        renderMenu();
-    </script>
+const contenedor = document.getElementById('productos');
+productos.forEach((producto, index) => {
+    contenedor.innerHTML += `
+        <div class="producto">
+            <img src="${producto.imagen}" alt="${producto.titulo}">
+            <div class="producto-info">
+                <h3>${producto.titulo}</h3>
+                <p>${producto.descripcion}</p>
+                <p>Precio: $${producto.precio}</p>
+                <div class="cantidad-control">
+                    <button onclick="cambiarCantidad(${index}, -1)">-</button>
+                    <input id="cantidad-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;">
+                    <button onclick="cambiarCantidad(${index}, 1)">+</button>
+                </div>
+            </div>
+        </div>
+    `;
+});
+
+const pizzasContainer = document.getElementById('pizzas');
+pizzas.forEach((pizza, index) => {
+    pizzasContainer.innerHTML += `
+        <div class="pizza-item">
+            <div class="pizza-info">
+                <h3>${pizza}</h3>
+                <p>Precio: $5000</p>
+                <div class="cantidad-control">
+                    <button onclick="cambiarCantidadPizza(${index}, -1)">-</button>
+                    <input id="cantidad-pizza-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;">
+                    <button onclick="cambiarCantidadPizza(${index}, 1)">+</button>
+                </div>
+            </div>
+        </div>
+    `;
+});
+
+const empanadasContainer = document.getElementById('empanadas');
+empanadas.forEach((empanada, index) => {
+    empanadasContainer.innerHTML += `
+        <div class="empanada-item">
+            <div class="empanada-info">
+                <h3>${empanada}</h3>
+                <p>Precio: $1000</p>
+                <div class="cantidad-control">
+                    <button onclick="cambiarCantidadEmpanada(${index}, -1)">-</button>
+                    <input id="cantidad-empanada-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;">
+                    <button onclick="cambiarCantidadEmpanada(${index}, 1)">+</button>
+                </div>
+            </div>
+        </div>
+    `;
+});
+
+const tartasContainer = document.getElementById('tartas');
+tartas.forEach((tarta, index) => {
+    tartasContainer.innerHTML += `
+        <div class="tarta-item">
+            <div class="tarta-info">
+                <h3>${tarta}</h3>
+                <p>Precio: $1000</p>
+                <div class="cantidad-control">
+                    <button onclick="cambiarCantidadTarta(${index}, -1)">-</button>
+                    <input id="cantidad-tarta-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;">
+                    <button onclick="cambiarCantidadTarta(${index}, 1)">+</button>
+                </div>
+            </div>
+        </div>
+    `;
+});
+
+function cambiarCantidad(index, cambio) {
+    const input = document.getElementById(`cantidad-${index}`);
+    let cantidad = parseInt(input.value) + cambio;
+    if (cantidad < 0) cantidad = 0;
+    input.value = cantidad;
+}
+function cambiarCantidadPizza(index, cambio) {
+    const input = document.getElementById(`cantidad-pizza-${index}`);
+    let cantidad = parseInt(input.value) + cambio;
+    if (cantidad < 0) cantidad = 0;
+    input.value = cantidad;
+}
+function cambiarCantidadEmpanada(index, cambio) {
+    const input = document.getElementById(`cantidad-empanada-${index}`);
+    let cantidad = parseInt(input.value) + cambio;
+    if (cantidad < 0) cantidad = 0;
+    input.value = cantidad;
+}
+function cambiarCantidadTarta(index, cambio) {
+    const input = document.getElementById(`cantidad-tarta-${index}`);
+    let cantidad = parseInt(input.value) + cambio;
+    if (cantidad < 0) cantidad = 0;
+    input.value = cantidad;
+}
+
+function enviarPedido() {
+    const nombre = document.getElementById('nombre').value;
+    const direccion = document.getElementById('direccion').value;
+    let mensaje = `Hola! Mi nombre es ${nombre} y mi dirección es ${direccion}. Quisiera pedir:\n`;
+
+    productos.forEach((producto, index) => {
+        const cantidad = parseInt(document.getElementById(`cantidad-${index}`).value);
+        if (cantidad > 0) mensaje += `\n- ${producto.titulo} x${cantidad} ($${producto.precio} c/u)`;
+    });
+    pizzas.forEach((pizza, index) => {
+        const cantidad = parseInt(document.getElementById(`cantidad-pizza-${index}`).value);
+        if (cantidad > 0) mensaje += `\n- Pizza ${pizza} x${cantidad} ($5000 c/u)`;
+    });
+    empanadas.forEach((empanada, index) => {
+        const cantidad = parseInt(document.getElementById(`cantidad-empanada-${index}`).value);
+        if (cantidad > 0) mensaje += `\n- Empanada ${empanada} x${cantidad} ($1000 c/u)`;
+    });
+    tartas.forEach((tarta, index) => {
+        const cantidad = parseInt(document.getElementById(`cantidad-tarta-${index}`).value);
+        if (cantidad > 0) mensaje += `\n- Tarta ${tarta} x${cantidad} ($1000 c/u)`;
+    });
+
+    const whatsappURL = `https://wa.me/549XXXXXXXXXX?text=${encodeURIComponent(mensaje)}`;
+    window.open(whatsappURL);
+}
+</script>
+
 </body>
-</html
+</html>
