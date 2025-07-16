@@ -64,6 +64,12 @@
             border-radius: 10px;
             margin-top: 20px;
         }
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            text-align: center;
+        }
         .grid-productos, .grid-pizzas-empanadas {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -112,6 +118,8 @@
         <div id="tartas" class="grid-pizzas-empanadas"></div>
     </div>
 
+    <div class="total" id="total">Total: $0</div>
+
     <button class="enviar" onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
 </div>
 
@@ -147,7 +155,7 @@ const productos = [
 
 const pizzas = ['Muzzarella', 'Napolitana', 'Especial', 'Capresse', 'Pollo', 'Pollo y Roque', 'Calabresa', 'Verduras Asadas', 'Palmitos', 'Ananá', 'Especial con huevo frito', 'Espinaca'];
 const empanadas = ['Pollo', 'Verdura', 'Capresse', 'Pollo y Roque', 'Jamón y Queso', 'Jamón y Roque', 'Cebolla y Mozza', 'Ciruela y Panceta', 'Carne cortada a cuchillo', 'Espinaca', 'Carne dulce'];
-const tartas = ['Pollo', 'Verdura', 'Capresse', 'Pollo y Roque', 'Jamón y Queso', 'Calabaza y Nuez', 'Zapallito', 'Ciruela y Panceta'];
+const tartas = [...empanadas];
 
 const contenedor = document.getElementById('productos');
 productos.forEach((producto, index) => {
@@ -176,12 +184,12 @@ pizzas.forEach((pizza, index) => {
                 <h3>${pizza}</h3>
                 <p>Precio: $5000 (Entera)</p>
                 <div class="cantidad-control">
-                    <select id="tipo-pizza-${index}">
+                    <select id="tipo-pizza-${index}" onchange="actualizarTotal()">
                         <option value="entera">Entera</option>
                         <option value="media">Media</option>
                     </select>
                     <button onclick="cambiarCantidadPizza(${index}, -1)">-</button>
-                    <input id="cantidad-pizza-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;">
+                    <input id="cantidad-pizza-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;" onchange="actualizarTotal()">
                     <button onclick="cambiarCantidadPizza(${index}, 1)">+</button>
                 </div>
             </div>
@@ -198,7 +206,7 @@ empanadas.forEach((empanada, index) => {
                 <p>Precio: $1000</p>
                 <div class="cantidad-control">
                     <button onclick="cambiarCantidadEmpanada(${index}, -1)">-</button>
-                    <input id="cantidad-empanada-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;">
+                    <input id="cantidad-empanada-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;" onchange="actualizarTotal()">
                     <button onclick="cambiarCantidadEmpanada(${index}, 1)">+</button>
                 </div>
             </div>
@@ -215,7 +223,7 @@ tartas.forEach((tarta, index) => {
                 <p>Precio: $1000</p>
                 <div class="cantidad-control">
                     <button onclick="cambiarCantidadTarta(${index}, -1)">-</button>
-                    <input id="cantidad-tarta-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;">
+                    <input id="cantidad-tarta-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;" onchange="actualizarTotal()">
                     <button onclick="cambiarCantidadTarta(${index}, 1)">+</button>
                 </div>
             </div>
@@ -228,24 +236,52 @@ function cambiarCantidad(index, cambio) {
     let cantidad = parseInt(input.value) + cambio;
     if (cantidad < 0) cantidad = 0;
     input.value = cantidad;
+    actualizarTotal();
 }
 function cambiarCantidadPizza(index, cambio) {
     const input = document.getElementById(`cantidad-pizza-${index}`);
     let cantidad = parseInt(input.value) + cambio;
     if (cantidad < 0) cantidad = 0;
     input.value = cantidad;
+    actualizarTotal();
 }
 function cambiarCantidadEmpanada(index, cambio) {
     const input = document.getElementById(`cantidad-empanada-${index}`);
     let cantidad = parseInt(input.value) + cambio;
     if (cantidad < 0) cantidad = 0;
     input.value = cantidad;
+    actualizarTotal();
 }
 function cambiarCantidadTarta(index, cambio) {
     const input = document.getElementById(`cantidad-tarta-${index}`);
     let cantidad = parseInt(input.value) + cambio;
     if (cantidad < 0) cantidad = 0;
     input.value = cantidad;
+    actualizarTotal();
+}
+
+function actualizarTotal() {
+    let total = 0;
+    productos.forEach((producto, index) => {
+        const cantidad = parseInt(document.getElementById(`cantidad-${index}`).value);
+        total += cantidad * producto.precio;
+    });
+    pizzas.forEach((pizza, index) => {
+        const cantidad = parseInt(document.getElementById(`cantidad-pizza-${index}`).value);
+        const tipo = document.getElementById(`tipo-pizza-${index}`).value;
+        const precio = tipo === 'media' ? 2500 : 5000;
+        total += cantidad * precio;
+    });
+    empanadas.forEach((empanada, index) => {
+        const cantidad = parseInt(document.getElementById(`cantidad-empanada-${index}`).value);
+        total += cantidad * 1000;
+    });
+    tartas.forEach((tarta, index) => {
+        const cantidad = parseInt(document.getElementById(`cantidad-tarta-${index}`).value);
+        total += cantidad * 1000;
+    });
+    document.getElementById('total').innerText = `Total: $${total}`;
+    return total;
 }
 
 function enviarPedido() {
@@ -274,6 +310,9 @@ function enviarPedido() {
         if (cantidad > 0) mensaje += `\n- Tarta ${tarta} x${cantidad} ($1000 c/u)`;
     });
 
+    const total = actualizarTotal();
+    mensaje += `\nTOTAL: $${total}`;
+
     const whatsappURL = `https://wa.me/5492355644556?text=${encodeURIComponent(mensaje)}`;
     window.open(whatsappURL);
 }
@@ -281,3 +320,5 @@ function enviarPedido() {
 
 </body>
 </html>
+
+
