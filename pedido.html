@@ -46,6 +46,10 @@
             gap: 10px;
             margin-top: 10px;
         }
+        select {
+            padding: 10px;
+            font-size: 16px;
+        }
         button {
             padding: 10px;
             font-size: 16px;
@@ -139,7 +143,6 @@ const productos = [
     {titulo: "Ensalada", descripcion: "Descripción del producto 5", precio: 1300, imagen: "ensalada.webp"},
     {titulo: "Papas Noissetes", descripcion: "Descripción del producto 6", precio: 1800, imagen: "papasnoisetes.webp"},
     {titulo: "Puré", descripcion: "Descripción del producto 7", precio: 1700, imagen: "pure.webp"}
-    
 ];
 
 const pizzas = ['Muzzarella', 'Napolitana', 'Especial', 'Capresse', 'Pollo', 'Pollo y Roque', 'Calabresa', 'Verduras Asadas', 'Palmitos', 'Ananá', 'Especial con huevo frito', 'Espinaca'];
@@ -171,8 +174,12 @@ pizzas.forEach((pizza, index) => {
         <div class="pizza-item">
             <div class="pizza-info">
                 <h3>${pizza}</h3>
-                <p>Precio: $5000</p>
+                <p>Precio: $5000 (Entera)</p>
                 <div class="cantidad-control">
+                    <select id="tipo-pizza-${index}">
+                        <option value="entera">Entera</option>
+                        <option value="media">Media</option>
+                    </select>
                     <button onclick="cambiarCantidadPizza(${index}, -1)">-</button>
                     <input id="cantidad-pizza-${index}" type="number" value="0" min="0" style="width: 60px; text-align:center;">
                     <button onclick="cambiarCantidadPizza(${index}, 1)">+</button>
@@ -252,7 +259,11 @@ function enviarPedido() {
     });
     pizzas.forEach((pizza, index) => {
         const cantidad = parseInt(document.getElementById(`cantidad-pizza-${index}`).value);
-        if (cantidad > 0) mensaje += `\n- Pizza ${pizza} x${cantidad} ($5000 c/u)`;
+        const tipo = document.getElementById(`tipo-pizza-${index}`).value;
+        if (cantidad > 0) {
+            const precio = tipo === 'media' ? 2500 : 5000;
+            mensaje += `\n- Pizza ${pizza} x${cantidad} (${tipo} - $${precio} c/u)`;
+        }
     });
     empanadas.forEach((empanada, index) => {
         const cantidad = parseInt(document.getElementById(`cantidad-empanada-${index}`).value);
