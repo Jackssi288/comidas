@@ -317,7 +317,20 @@ function enviarPedido() {
     window.open(whatsappURL);
 }
 </script>
+<script>
+// Código JS permanece igual sin modificaciones
 
+function enviarPedido() {
+    const nombre = document.getElementById('nombre').value.trim();
+    const direccion = document.getElementById('direccion').value.trim();
+    if (!nombre || !direccion) {
+        alert('Por favor complete nombre y dirección antes de enviar el pedido.');
+        return;
+    }
+
+    // El resto del código enviarPedido original lo dejás igual acá
+}
+</script>
 </body>
 </html>
 
